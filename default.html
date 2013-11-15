@@ -15,7 +15,8 @@
 			// the contents of style.css based on a cookie to match the desired theme.
 			$(".icon").each(function(idx, icon) {
 				$.get($(this).data('src'), function(data) {
-					$(icon).replaceWith(data.documentElement ? data.documentElement : data);
+					var node = data.documentElement ? document.importNode(data.documentElement, true) : data;
+					$(icon).replaceWith(node);
 				});
 			});
 
