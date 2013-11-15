@@ -1,0 +1,30 @@
+body {
+	background-color: #CCCCCC;
+}
+
+.ibz * {	
+	fill: #334D5C;
+}
+
+/* 
+  
+  For reasons beyond my understanding, the * selector with :hover is not working
+  in Chrome on OSX.  I have no idea why.  
+
+  .ibz *:hover{
+	fill: pink;
+  }
+
+*/
+
+.ibz path:hover,
+.ibz circle:hover,
+.ibz rect:hover {
+	fill:#45B29D;
+}
+
+.ibz path:active,
+.ibz circle:active,
+.ibz rect:active {
+	fill:#EFC94C;
+}

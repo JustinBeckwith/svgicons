@@ -1,0 +1,77 @@
+<html>
+
+<head>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+	<link rel="stylesheet" href="theme1.css" />	
+	<script>
+		$(function() {
+
+			// When using an <img> tag to link an SVG, you cannot control it's elements
+			// via CSS.  When using <object>, a direct link to the CSS must be embedded. 
+			// Directly embedding the SVG in the dom would make caching not work.  So 
+			// instead I start with an img and swap it out with the SVG, allowing it to 
+			// get cached and allowing us to use CSS against it.   Another potential fix
+			// is to place the style tag in the .svg file, use an <object> tag, and modify
+			// the contents of style.css based on a cookie to match the desired theme.
+			$(".icon").each(function(idx, icon) {
+				$.get($(this).data('src'), function(data) {
+					$(icon).replaceWith(data);
+				});
+			});
+
+			// Changing the size in this way requires the 'viewbox' attribute to be
+			// set on all of the <svg> elements in the svg files.  Provides scaling 
+			// with aspect ratio preserved for each icon.
+			$("#size").change(function() {
+				var size;
+				switch ($(this).val()) {
+					case "1":
+						size = 25;
+						break
+					case "2":
+						size = 100;
+						break;
+					case "3":
+						size = 200;
+						break;
+				}
+				$("svg.ibz").each(function(idx, icon) {
+					$(this).css('width', size).css('height', size);
+				});
+			});
+
+			// Swap out the linked css file to change themes.
+			$("#theme").change(function() {
+				$("link").attr('href', 'theme' + $(this).val() + ".css");			
+			});
+			
+		});
+	</script>
+<body>
+
+	<!-- 
+		The data-src attribute is used here to prevent the browser from downloading
+		the svg file twice (given the approach explained above)
+	-->
+	<img data-src="icon1.svg" class="icon">
+	<img data-src="icon2.svg" class="icon">
+	<img data-src="icon3.svg" class="icon">
+	<img data-src="icon4.svg" class="icon">
+
+	<div>
+		<select id="theme">
+			<option value="1">Theme 1</option>
+			<option value="2">Theme 2</option>
+			<option value="3">Theme 3</option>
+		</select>
+
+		<select id="size">
+			<option value="1">Small</option>
+			<option value="2">Medium</option>
+			<option value="3">Large</option>
+		</select>
+
+	</div>
+
+</body>
+</html>	
